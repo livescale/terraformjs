@@ -1,6 +1,6 @@
 {
   "name": "terraformjs",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A HashiCorp Terraform wrapper",
   "main": "src/index.js",
   "files": [
@@ -24,8 +24,8 @@
   },
   "homepage": "http://github.com/strigo/terraformjs",
   "dependencies": {
-    "which": "^1.2.12",
-    "shelljs": "^0.7.6"
+    "shelljs.exec": "^1.1.7",
+    "which": "^1.2.12"
   },
   "devDependencies": {
     "chai": "^3.5.0",

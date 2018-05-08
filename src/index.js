@@ -1,4 +1,4 @@
-const sh = require('shelljs');
+const exec = require('shelljs.exec');
 
 
 /**
@@ -8,7 +8,7 @@ const sh = require('shelljs');
  * @returns {String} A stripped string representing the version
  */
 const version = function showVersion() {
-  const outcome = sh.exec('terraform --version', { silent: true });
+  const outcome = exec('terraform --version', { silent: true });
   const parsedVersion = outcome.stdout.split('\n')[0].split(' ')[1].substr(1);
   return parsedVersion;
 };
@@ -108,7 +108,7 @@ class Terraform {
 
     process.chdir(this.workDir);
 
-    const outcome = sh.exec(command, { silent: this.silent });
+    const outcome = exec(command, { silent: this.silent });
     outcome.command = command;
 
     process.chdir(cwd);
