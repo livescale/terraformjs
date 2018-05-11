@@ -159,13 +159,10 @@ class Terraform {
    * @param  {String} dirOrPlan Directory in which the plan resides
    * @return {Object}           shelljs execution outcome
    */
-  apply(args = {}, auto_approuve = false, dirOrPlan, cb) {
+  apply(args = {}, autoApprouve = false, cb) {
     let command = `apply${this._constructOptString(args)}`;
-    if (auto_approuve) {
-      command = `${command}  -auto-approve`
-    }
-    if (dirOrPlan) {
-      command = `${command} ${dirOrPlan}`;
+    if (autoApprouve) {
+      command = `${command}  -auto-approve`;
     }
     return this.terraform(command, cb);
   }
@@ -176,9 +173,11 @@ class Terraform {
    * @param  {String} dir       Directory in which the plan resides
    * @return {Object}           shelljs execution outcome
    */
-  destroy(args = {}, cb) {
+  destroy(args = {}, autoApprouve = false, cb) {
     let command = `destroy${this._constructOptString(args)}`;
-
+    if (autoApprouve) {
+      command = `${command}  -auto-approve`
+    }
     return this.terraform(command, cb);
   }
 
