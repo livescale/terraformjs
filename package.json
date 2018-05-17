@@ -1,6 +1,6 @@
 {
   "name": "terraformjs",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "A HashiCorp Terraform wrapper",
   "main": "src/index.js",
   "files": [

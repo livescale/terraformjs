@@ -11,9 +11,6 @@ const version = function showVersion(cb) {
   return undefined
 };
 
-
-
-
 /**
  * Terraform API Class
  */
@@ -23,16 +20,21 @@ class Terraform {
    * @todo Implement `remote`, `debug` and `state` support (which require subcommands)
    * @todo Assert that terraform exists before allowing to perform actions
    * @todo once finalized, document each command
-   * @param {String} workDir (default: cwd)
-   * @param {Boolean} silent (default: false)
-   * @param {Boolean} noColor (default: false)
-   * @param {Boolean} debug (default: false)
    */
-  constructor(workDir = process.cwd(), debug = false, silent = true, noColor = false) {
-    this.workDir = workDir;
-    this.silent = silent;
-    this.noColor = noColor;
-    this.debug = debug
+  constructor(params) {
+
+    this.terraformBinary = params.terraformBinary || 'terraform'
+    this.workDir = params.workDir || process.cwd();
+    this.noColor = params.noColor || false
+    this.debug = params.debug || false
+
+    if (this.debug) {
+      console.log('init terraform with [' + JSON.stringify(params, null, 2) + ']')
+      console.log('workdir : ' + this.workDir)
+      console.log('terraformBinary : ' + this.terraformBinary)
+      console.log('noColor : ' + this.noColor)
+      console.log('debug : ' + this.debug)
+    }
   }
 
   /**
@@ -104,7 +106,7 @@ class Terraform {
   */
   terraform(subCommandString, callback) {
 
-    let command = 'terraform';
+    let command = this.terraformBinary;
     let hasError = false;
     let alldata = '';
 
