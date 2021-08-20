@@ -1,4 +1,5 @@
-const child_process = require('child_process');
+/* eslint valid-jsdoc: "warn" */
+const childProcess = require('child_process');
 
 /**
  * Retrieve a stripped version of terraform's executable version.
@@ -6,9 +7,9 @@ const child_process = require('child_process');
  * @todo Use Terraform class API here instead
  * @returns {String} A stripped string representing the version
  */
-const version = function showVersion(cb) {
-  console.log('not implemented yet')
-  return undefined
+const version = function showVersion() {
+  console.log('not implemented yet');
+  return undefined;
 };
 
 /**
@@ -21,19 +22,18 @@ class Terraform {
    * @todo Assert that terraform exists before allowing to perform actions
    * @todo once finalized, document each command
    */
-  constructor(params) {
-
-    this.terraformBinary = params.terraformBinary || 'terraform'
+  constructor(params = {}) {
+    this.terraformBinary = params.terraformBinary || 'terraform';
     this.workDir = params.workDir || process.cwd();
-    this.noColor = params.noColor || false
-    this.debug = params.debug || false
+    this.noColor = params.noColor || false;
+    this.debug = params.debug || false;
 
     if (this.debug) {
-      console.log('init terraform with [' + JSON.stringify(params, null, 2) + ']')
-      console.log('workdir : ' + this.workDir)
-      console.log('terraformBinary : ' + this.terraformBinary)
-      console.log('noColor : ' + this.noColor)
-      console.log('debug : ' + this.debug)
+      console.log(`init terraform with [${JSON.stringify(params, null, 2)}]`);
+      console.log(`workdir : ${this.workDir}`);
+      console.log(`terraformBinary : ${this.terraformBinary}`);
+      console.log(`noColor : ${this.noColor}`);
+      console.log(`debug : ${this.debug}`);
     }
   }
 
@@ -105,7 +105,6 @@ class Terraform {
   * @return {Object} shelljs exec object
   */
   terraform(subCommandString, callback) {
-
     let command = this.terraformBinary;
     let hasError = false;
     let alldata = '';
@@ -115,44 +114,40 @@ class Terraform {
     }
 
     if (this.debug) {
-      console.log('running terraform command [' + command + '] in [' + this.workDir + ']')
+      console.log(`running terraform command [${command}] in [${this.workDir}]`);
     }
 
-    let terraformChild = child_process.spawn(command, {
+    const terraformChild = childProcess.spawn(command, {
       detached: true,
       shell: true,
-      cwd: this.workDir
+      cwd: this.workDir,
     });
-
 
     terraformChild.stdout.on('data', (data) => {
       if (this.debug) {
-        console.log('terraform stdout = ' + data)
+        console.log(`terraform stdout = ${data}`);
       }
-      alldata += data
+      alldata += data;
     });
 
     terraformChild.stderr.on('data', (data) => {
-
       if (this.debug) {
-        console.error('terraform stderr = ' + data)
+        console.error(`terraform stderr = ${data}`);
       }
 
-      hasError = true
-      alldata += data
+      hasError = true;
+      alldata += data;
     });
 
-    terraformChild.on('exit', function (code, signal) {
+    terraformChild.on('exit', (code, signal) => {
       if (this.debug) {
-        console.log('terraform process exited with code=' + code + ' signal=' + signal)
+        console.log(`terraform process exited with code=${code} signal=${signal}`);
       }
       if (hasError) {
-        return callback(new Error('Error while executing terraform command : [' + alldata + ']'))
-      } else {
-        return callback(null, alldata)
+        return callback(new Error(`Error while executing terraform command : [${alldata}]`));
       }
+      return callback(null, alldata);
     });
-
   }
 
   /**
@@ -178,7 +173,7 @@ class Terraform {
   destroy(args = {}, autoApprouve = false, cb) {
     let command = `destroy${this._constructOptString(args)}`;
     if (autoApprouve) {
-      command = `${command}  -auto-approve`
+      command = `${command}  -auto-approve`;
     }
     return this.terraform(command, cb);
   }
@@ -190,7 +185,7 @@ class Terraform {
    * @return {Object}           shelljs execution outcome
    */
   console(args = {}, cb) {
-    let command = `console${this._constructOptString(args)}`;
+    const command = `console${this._constructOptString(args)}`;
 
     return this.terraform(command, cb);
   }
@@ -202,7 +197,7 @@ class Terraform {
    * @return {Object}           shelljs execution outcome
    */
   fmt(args = {}, cb) {
-    let command = `fmt${this._constructOptString(args)}`;
+    const command = `fmt${this._constructOptString(args)}`;
 
     return this.terraform(command, cb);
   }
@@ -214,7 +209,7 @@ class Terraform {
    * @return {Object}           shelljs execution outcome
    */
   get(args = {}, cb) {
-    let command = `get${this._constructOptString(args)}`;
+    const command = `get${this._constructOptString(args)}`;
 
     return this.terraform(command, cb);
   }
@@ -226,7 +221,7 @@ class Terraform {
    * @return {Object}           shelljs execution outcome
    */
   graph(args = {}, cb) {
-    let command = `graph${this._constructOptString(args)}`;
+    const command = `graph${this._constructOptString(args)}`;
 
     return this.terraform(command, cb);
   }
@@ -250,7 +245,7 @@ class Terraform {
    * @return {Object}           shelljs execution outcome
    */
   init(args = {}, cb) {
-    let command = `init${this._constructOptString(args)}`;
+    const command = `init${this._constructOptString(args)}`;
     return this.terraform(command, cb);
   }
 
@@ -303,7 +298,7 @@ class Terraform {
    * @return {Object}           shelljs execution outcome
    */
   refresh(args = {}, cb) {
-    let command = `refresh${this._constructOptString(args)}`;
+    const command = `refresh${this._constructOptString(args)}`;
     return this.terraform(command, cb);
   }
 

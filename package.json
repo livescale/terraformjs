@@ -1,5 +1,5 @@
 {
-  "name": "terraformjs",
+  "name": "@livescale/terraformjs",
   "version": "0.1.3",
   "description": "A HashiCorp Terraform wrapper",
   "main": "src/index.js",
@@ -8,21 +8,18 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/strigo/terraformjs.git"
+    "url": "https://github.com/livescale/terraformjs.git"
   },
   "keywords": [
     "terraform",
     "hashicorp",
     "terraformjs"
   ],
-  "authors": [
-    "Nir Cohen <nir@strigo.io> (https://github.com/nir0s)"
-  ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/strigo/terraformjs/issues"
+    "url": "https://github.com/livescale/terraformjs/issues"
   },
-  "homepage": "http://github.com/strigo/terraformjs",
+  "homepage": "http://github.com/livescale/terraformjs",
   "dependencies": {
     "shelljs.exec": "^1.1.7",
     "which": "^1.2.12"

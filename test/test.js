@@ -1,6 +1,6 @@
 const assert = require('assert');
 const proxyquire = require('proxyquire');
-const terraform = require('../src/index.js');
+const terraform = require('../src/index');
 
 
 /**
@@ -33,7 +33,7 @@ describe.only('applyCommand', () => {
   describe('withPath', () => {
     it('should return the help text when running `terraform`', () => {
       const terraformStub = makeTerraformStub('apply output');
-      const tf = new terraformStub.Terraform();
+      const tf = new terraformStub.Terraform({ debug: true });
       const outcome = tf.apply({}, '/tf/path');
 
       assert.equal(outcome.stdout, 'apply output');
